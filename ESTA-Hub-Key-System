@@ -1,0 +1,82 @@
+-- Define your key here
+local key = "Esta-Hub"
+
+-- Function to check if the provided key is valid
+local function isValidKey(inputKey)
+    return inputKey == key
+end
+
+-- Load the Orion Library
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+-- Create a window
+local Window = OrionLib:MakeWindow({
+    Name = "Esta Hub - BakerBoi384",
+    SaveConfig = true,
+    ConfigFolder = "MyComplexScriptConfig"
+})
+
+-- Create tabs
+local Tab1 = Window:MakeTab({
+    Name = "Main",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Function to create sections and UI elements
+local function createSectionsAndUI()
+    -- Add sections to Tab One
+    local Section1_Tab1 = Tab1:AddSection({
+        Name = "Aimbot"
+    })
+
+    -- Add UI elements to Tab One sections
+    -- Aimbot Section
+    Section1_Tab1:AddToggle({
+        Name = "Aimbot Toggle",
+        Default = false,
+        Callback = function(Value)
+            -- Add code here to toggle aimbot functionality
+        end
+    })
+
+    Section1_Tab1:AddSlider({
+        Name = "Aimbot Strength",
+        Min = 0,
+        Max = 100,
+        Default = 50,
+        Callback = function(Value)
+            -- Add code here to adjust aimbot strength
+        end
+    })
+
+    -- Add more sections and UI elements as needed
+end
+
+-- Check if the key is valid before creating UI elements
+local userInputService = game:GetService("UserInputService")
+userInputService.TextBoxFocusReleased:Connect(function()
+    local userInput = Window:GetObject("keyTextbox").Text
+    if isValidKey(userInput) then
+        createSectionsAndUI()
+    end
+end)
+
+-- Add a text box for the key input
+local Section_Key = Tab1:AddSection({
+    Name = "Key Input"
+})
+
+Section_Key:AddLabel("Enter the key to unlock the features:")
+local keyTextbox = Section_Key:AddTextbox({
+    Name = "Key",
+    Default = "",
+    Callback = function(Value)
+        -- This function is not needed for key validation
+    end
+})
+keyTextbox.Textbox:SetPlaceholderText("Enter Key Here")
+keyTextbox:SetObjectName("keyTextbox")
+
+-- Initialize the Orion Library
+OrionLib:Init()
