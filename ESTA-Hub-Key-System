@@ -1,10 +1,24 @@
 -- Define your key here
-local key = "Esta-Hub"
+local key = "EstaHubKey"
 
 -- Function to check if the provided key is valid
 local function isValidKey(inputKey)
     return inputKey == key
 end
+
+-- Function to prompt the user to input the key
+local function promptKeyInput()
+    local userInput = ""
+    repeat
+        userInput = tostring(input("Enter the key to unlock the features: "))
+    until isValidKey(userInput)
+end
+
+-- Prompt the user to input the key
+promptKeyInput()
+
+-- Load the Orion Library and create UI elements only if the key is valid
+if isValidKey(userInput) then
 
 -- Load the Orion Library
 local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
@@ -23,60 +37,238 @@ local Tab1 = Window:MakeTab({
     PremiumOnly = false
 })
 
--- Function to create sections and UI elements
-local function createSectionsAndUI()
-    -- Add sections to Tab One
-    local Section1_Tab1 = Tab1:AddSection({
-        Name = "Aimbot"
-    })
+local Tab2 = Window:MakeTab({
+    Name = "Target",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-    -- Add UI elements to Tab One sections
-    -- Aimbot Section
-    Section1_Tab1:AddToggle({
-        Name = "Aimbot Toggle",
-        Default = false,
-        Callback = function(Value)
-            -- Add code here to toggle aimbot functionality
+local Tab3 = Window:MakeTab({
+    Name = "Player",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Tab4 = Window:MakeTab({
+    Name = "Lock/Esp",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Tab5= Window:MakeTab({
+    Name = "Visual",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+local Tab6= Window:MakeTab({
+    Name = "Misc",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
+
+-- Add sections to Tab One
+local Section1_Tab1 = Tab1:AddSection({
+    Name = "Aimbot"
+})
+
+local Section2_Tab1 = Tab1:AddSection({
+    Name = "ESP"
+})
+
+local Section3_Tab1 = Tab1:AddSection({
+    Name = "Weapon Modifiers"
+})
+
+local Section4_Tab1 = Tab1:AddSection({
+    Name = "Player Teleportation"
+})
+
+local Section5_Tab1 = Tab1:AddSection({
+    Name = "GUI Customization"
+})
+
+local Section6_Tab1 = Tab1:AddSection({
+    Name = "Anti-Cheat Bypass"
+})
+
+local Section7_Tab1 = Tab1:AddSection({
+    Name = "Miscellaneous Features"
+})
+
+
+-- Define a variable to hold the loaded No Clip script
+local noClipScript
+
+-- Function to reset player's collision properties
+local function ResetCollision()
+    local player = game.Players.LocalPlayer
+    local character = player.Character
+    if character then
+        for _, part in ipairs(character:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = true
+            end
         end
-    })
-
-    Section1_Tab1:AddSlider({
-        Name = "Aimbot Strength",
-        Min = 0,
-        Max = 100,
-        Default = 50,
-        Callback = function(Value)
-            -- Add code here to adjust aimbot strength
-        end
-    })
-
-    -- Add more sections and UI elements as needed
+    end
 end
 
--- Check if the key is valid before creating UI elements
-local userInputService = game:GetService("UserInputService")
-userInputService.TextBoxFocusReleased:Connect(function()
-    local userInput = Window:GetObject("keyTextbox").Text
-    if isValidKey(userInput) then
-        createSectionsAndUI()
-    end
-end)
-
--- Add a text box for the key input
-local Section_Key = Tab1:AddSection({
-    Name = "Key Input"
-})
-
-Section_Key:AddLabel("Enter the key to unlock the features:")
-local keyTextbox = Section_Key:AddTextbox({
-    Name = "Key",
-    Default = "",
+-- Add UI elements to Tab One sections
+-- Aimbot Section
+Section1_Tab1:AddToggle({
+    Name = "Aimbot Toggle",
+    Default = false,
     Callback = function(Value)
-        -- This function is not needed for key validation
+        -- Add code here to toggle aimbot functionality
     end
 })
-keyTextbox.Textbox:SetPlaceholderText("Enter Key Here")
-keyTextbox:SetObjectName("keyTextbox")
+
+Section1_Tab1:AddSlider({
+    Name = "Aimbot Strength",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Callback = function(Value)
+        -- Add code here to adjust aimbot strength
+    end
+})
+
+-- ESP Section
+Section2_Tab1:AddToggle({
+    Name = "ESP Toggle",
+    Default = false,
+    Callback = function(Value)
+        -- Add code here to toggle ESP functionality
+    end
+})
+
+-- Weapon Modifiers Section
+Section3_Tab1:AddToggle({
+    Name = "Recoil Reduction",
+    Default = false,
+    Callback = function(Value)
+        -- Add code here to toggle recoil reduction
+    end
+})
+
+Section3_Tab1:AddSlider({
+    Name = "Fire Rate Adjustment",
+    Min = 0,
+    Max = 100,
+    Default = 50,
+    Callback = function(Value)
+        -- Add code here to adjust fire rate
+    end
+})
+
+-- Player Teleportation Section
+Section4_Tab1:AddButton({
+    Name = "Teleport to Player",
+    Callback = function()
+        -- Add code here to teleport the player to another player
+    end
+})
+
+-- GUI Customization Section
+Section5_Tab1:AddColorpicker({
+    Name = "GUI Color",
+    Default = Color3.fromRGB(255, 255, 255),
+    Callback = function(Value)
+        -- Add code here to customize GUI colors
+    end
+})
+
+-- Anti-Cheat Bypass Section
+Section6_Tab1:AddToggle({
+    Name = "Anti-Cheat Bypass",
+    Default = false,
+    Callback = function(Value)
+        -- Add code here to bypass anti-cheat measures
+    end
+})
+
+-- Miscellaneous Features Section
+Section7_Tab1:AddToggle({
+    Name = "Fly",
+    Default = false,
+    Callback = function(Value)
+        -- Add code here to toggle speed hack
+    end
+})
+
+-- Add a toggle for No Clip to the appropriate section
+Section7_Tab1:AddToggle({
+    Name = "No Clip",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            -- Load and execute the script for No Clip
+            noClipScript = loadstring(game:HttpGet("https://raw.githubusercontent.com/BakerBo1/No-clip/main/No%20clip", true))
+            if noClipScript then
+                noClipScript()
+            else
+                warn("Failed to load No Clip script")
+            end
+        else
+            -- Disable the loaded No Clip script
+            noClipScript = nil
+            -- Reset player's collision properties
+            ResetCollision()
+        end
+    end
+})
+
+-- Add a toggle for Chatspy to the appropriate section
+Section7_Tab1:AddToggle({
+    Name = "Chatspy",
+    Default = false,
+    Callback = function(Value)
+        if Value then
+            -- Load and execute the Chatspy script
+            local scriptUrl = "https://pastebin.com/raw/nzXicwc1"
+            loadstring(game:HttpGet(scriptUrl, true))()
+            print("Chatspy script executed")
+        else
+            -- You can add code here to revert any changes made by the Chatspy script
+        end
+    end
+})
+
+-- Add sections to Tab Three
+local Section1_Tab3 = Tab3:AddSection({
+    Name = "Section 1 - Tab Three"
+})
+
+local Section2_Tab3 = Tab3:AddSection({
+    Name = "Section 2  - Tab Three"
+})
+
+-- Add UI elements to Tab Three sections
+Section1_Tab3:AddSlider({
+    Name = "Player Speed",
+    Min = 0,
+    Max = 1000,
+    Default = 250,
+    Callback = function(Value)
+        print("Slider 1 value changed to:", Value)
+    end
+})
+
+Section2_Tab3:AddSlider({
+    Name = "Jump Power",
+    Min = 0,
+    Max = 500,
+    Default = 100,
+    Callback = function(Value)
+        print("Slider 1 value changed to:", Value)
+    end
+})
+
+-- Add sections, UI elements, and initialize the Orion Library as before
+    -- ...
+else
+    print("Invalid key. Exiting script.")
+end
 
 -- Initialize the Orion Library
 OrionLib:Init()
